@@ -2,19 +2,49 @@ package com.paymybuddy.moneytranfer.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.sun.istack.NotNull;
+
+@Entity
+@Table(name = "account")
+@EntityListeners(AuditingEntityListener.class)
 public class Account {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_account_user_id")
 	private User user;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_account_type_id")
 	private AccountType accountType;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_account_currency_id")
 	private Currency currency;
 
+	@NotNull
 	private Double balance;
 
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Transaction> transactions;
 
+	@OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private BankAccount bankAccount;
 
 	public Account(int id, User user, AccountType accountType, Currency currency, Double balance,
@@ -29,7 +59,7 @@ public class Account {
 		this.bankAccount = bankAccount;
 	}
 
-	public Account(User user, AccountType accountType, Currency currency, Double balance) {
+	public Account(User user, AccountType accountType, Currency currency, @NotNull Double balance) {
 		super();
 		this.user = user;
 		this.accountType = accountType;
