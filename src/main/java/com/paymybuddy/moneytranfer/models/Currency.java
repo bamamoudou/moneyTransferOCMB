@@ -1,9 +1,22 @@
 package com.paymybuddy.moneytranfer.models;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@Table(name = "currency")
+@EntityListeners(AuditingEntityListener.class)
 public class Currency {
 
+	@Id
 	private int id;
-
+	/**
+	 * Label: 1 £ 2 $
+	 */
 	private String label;
 
 	private String description;

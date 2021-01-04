@@ -1,23 +1,34 @@
 package com.paymybuddy.moneytranfer.models;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@Table(name = "role")
+@EntityListeners(AuditingEntityListener.class)
 public class Role {
 
+	@Id
 	private int id;
 	/**
-	 * Role name: 1 Admin 2 User
+	 * Role type: 1 Admin 2 User
 	 */
 
-	private String name;
+	private String roleType;
 
-	public Role(int id, String name) {
+	public Role(int id, String roleType) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.roleType = roleType;
 	}
 
-	public Role(String name) {
+	public Role(String roleType) {
 		super();
-		this.name = name;
+		this.roleType = roleType;
 	}
 
 	public Role() {
@@ -33,11 +44,11 @@ public class Role {
 	}
 
 	public String getName() {
-		return name;
+		return roleType;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String roleType) {
+		this.roleType = roleType;
 	}
 
 }

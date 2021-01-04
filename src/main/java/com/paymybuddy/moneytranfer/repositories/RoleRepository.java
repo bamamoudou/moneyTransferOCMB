@@ -11,5 +11,5 @@ import com.paymybuddy.moneytranfer.models.Role;
 @Transactional
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	Role findRoleTypeByRoleType(String role);
+	Role findRoleTypeByRoleType(String roleType);
 }

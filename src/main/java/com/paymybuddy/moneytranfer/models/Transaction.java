@@ -2,22 +2,64 @@ package com.paymybuddy.moneytranfer.models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.sun.istack.NotNull;
+
+@Entity
+@Table(name = "transaction")
+@EntityListeners(AuditingEntityListener.class)
 public class Transaction {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_transaction_type_id")
 	private TransactionType transactionType;
-
+	/**
+	 * Sending account
+	 */
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_from_account_id")
 	private Account account;
-
+	/**
+	 * Recipient account id
+	 */
+	@Column(name = "to_account_id")
 	private int recipientAccountId;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_transaction_currency_id")
 	private Currency transactionCurrencyId;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_bank_account_id")
 	private BankAccount bankAccount;
 
+	@Column(name = "createdAt", nullable = false, updatable = false)
+	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
 
+	@NotNull
 	private Double amount;
 
 	private String description;
@@ -43,7 +85,7 @@ public class Transaction {
 	public Transaction() {
 	};
 
-	public Transaction(Account account, int recipientAccountId, Double amount) {
+	public Transaction(Account account, int recipientAccountId, @NotNull Double amount) {
 		this.account = account;
 		this.recipientAccountId = recipientAccountId;
 		this.amount = amount;

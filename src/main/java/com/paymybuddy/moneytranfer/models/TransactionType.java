@@ -1,23 +1,35 @@
 package com.paymybuddy.moneytranfer.models;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@Table(name = "transaction_type")
+@EntityListeners(AuditingEntityListener.class)
 public class TransactionType {
 
+	@Id
 	private int id;
-   
-	/**
-	 * Transaction types: 1 - PayMyBuddy, 2 - CreditMyAccount, 3 - TransferToBankAccount
-	 */
-	private String type;
 
-	public TransactionType(int id, String type) {
+	/**
+	 * Transaction types: 1 - PayMyBuddy, 2 - CreditMyAccount, 3 -
+	 * TransferToBankAccount
+	 */
+	private String transactionType;
+
+	public TransactionType(int id, String transactionType) {
 		super();
 		this.id = id;
-		this.type = type;
+		this.transactionType = transactionType;
 	}
 
-	public TransactionType(String type) {
+	public TransactionType(String transactionType) {
 		super();
-		this.type = type;
+		this.transactionType = transactionType;
 	}
 
 	public TransactionType() {
@@ -33,11 +45,11 @@ public class TransactionType {
 	}
 
 	public String getType() {
-		return type;
+		return transactionType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setType(String transactionType) {
+		this.transactionType = transactionType;
 	}
 
 }
