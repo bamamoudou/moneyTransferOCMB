@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.paymybuddy.moneytranfer.models.Account;
+import com.paymybuddy.moneytranfer.models.AccountType;
 import com.paymybuddy.moneytranfer.models.User;
 import com.paymybuddy.moneytranfer.repositories.AccountRepository;
 import com.paymybuddy.moneytranfer.repositories.AccountTypeRepository;
@@ -131,6 +132,33 @@ public class AccountServiceTest {
 		// assert
 		assertThat(new Double(10.0), Matchers.comparesEqualTo(account.getBalance()));
 		verify(accountRepository, times(1)).save(any(Account.class));
+	}
+
+	@Test
+	public void findAccountTypeByAccountTypeIfAccountTypeExistsAndAccountReturned() {
+		// arrange
+		AccountType accountType = new AccountType("Normal");
+
+		when(accountTypeRepository.findAccountTypeByAccountType(accountType.getAccountType())).thenReturn(accountType);
+
+		// act
+		AccountType result = accountServiceImpl.findAccountTypeByAccountType("Normal");
+
+		// assert
+		assertThat(accountType).isEqualTo(result);
+
+	}
+
+	@Test
+	public void tryToFindAccountTypeByAccountTypeIfAccountTypeDoesNotExistAndnullReturned() {
+		// arrange
+
+		// act
+		AccountType result = accountServiceImpl.findAccountTypeByAccountType("not exist");
+
+		// assert
+		assertThat(result).isNull();
+
 	}
 
 }

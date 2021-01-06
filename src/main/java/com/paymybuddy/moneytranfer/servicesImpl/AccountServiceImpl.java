@@ -59,8 +59,8 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public AccountType findAccountTypeByAccountType(String accountType) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return accountTypeRepository.findAccountTypeByAccountType(accountType);
 	}
 
 }
