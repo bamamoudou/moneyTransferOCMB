@@ -41,13 +41,19 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Account createAccount(Account account) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return accountRepository.save(account);
 	}
 
+	/**
+	 * Limited functionality exists for updating an account's balance due to
+	 * transaction activity.
+	 */
 	@Override
 	public void updateAccount(Account account) {
-		// TODO Auto-generated method stub
+		Account updatedAccount = findAccountById(account.getId());
+		updatedAccount.setBalance(account.getBalance());
+		accountRepository.save(updatedAccount);
 
 	}
 
