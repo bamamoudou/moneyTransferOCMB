@@ -54,12 +54,22 @@ public class AccountTest {
 
 	@BeforeEach
 	public void initTest() {
-		account = new Account(1, user, accountType, currency, 10.5, transactions, bankAccount);
+		//account = new Account(1, user, accountType, currency, 10.5, transactions, bankAccount);
+		account = new Account();
+	
 
 	}
 
 	@Test
 	public void gettersTest() {
+		account.setId(1);
+		account.setAccountType(accountType);
+		account.setBalance(10.5);
+		account.setBankAccount(bankAccount);
+		account.setUser(user);
+		account.setCurrency(currency);
+		account.setTransactions(transactions);
+		
 		assertThat(account.getId()).isEqualTo(1);
 		assertThat(account.getAccountType()).isEqualTo(accountType);
 		assertThat(account.getBalance()).isEqualTo(10.5);

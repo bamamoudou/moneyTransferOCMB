@@ -47,28 +47,15 @@ public class Account {
 	@OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private BankAccount bankAccount;
 
-	public Account(int id, User user, AccountType accountType, Currency currency, Double balance,
-			List<Transaction> transactions, BankAccount bankAccount) {
-		super();
-		this.id = id;
-		this.user = user;
-		this.accountType = accountType;
-		this.currency = currency;
-		this.balance = balance;
-		this.transactions = transactions;
-		this.bankAccount = bankAccount;
+	public Account() {
+
 	}
 
 	public Account(User user, AccountType accountType, Currency currency, @NotNull Double balance) {
-		super();
 		this.user = user;
 		this.accountType = accountType;
 		this.currency = currency;
 		this.balance = balance;
-	}
-
-	public Account() {
-
 	}
 
 	public int getId() {
