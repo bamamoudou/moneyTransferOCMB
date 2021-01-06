@@ -25,7 +25,13 @@ public class BankAccountServiceImpl implements BankAccountService {
 
 	@Override
 	public BankAccount createBankAccount(User user, String bankAccountNumber) {
-		// TODO Auto-generated method stub
+
+		Account userAccount = user.getAccount();
+		if (userAccount.getBankAccount() == null) {
+			BankAccount newBankAccount = new BankAccount(userAccount, bankAccountNumber);
+			bankAccountRepository.save(newBankAccount);
+			return newBankAccount;
+		}
 		return null;
 	}
 

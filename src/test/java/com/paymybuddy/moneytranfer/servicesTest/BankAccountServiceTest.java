@@ -1,6 +1,9 @@
 package com.paymybuddy.moneytranfer.servicesTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -55,6 +58,44 @@ public class BankAccountServiceTest {
 		// assert
 		assertThat(result).isNull();
 
+	}
+
+	@Test
+	public void createBankAccountIfbankAccountExistAndBankAccountReturned() {
+		// arrange
+		User user = new User();
+		Account account = new Account();
+
+		account.setUser(user);
+		user.setAccount(account);
+
+		when(bankAccountRepository.save(any(BankAccount.class))).thenReturn(new BankAccount());
+
+		// act
+		BankAccount result = bankAccountServiceImpl.createBankAccount(user, "bankaccountnumber");
+
+		// assert
+		assertThat(result.getBankAccountNumber()).isEqualTo("bankaccountnumber");
+		verify(bankAccountRepository, times(1)).save(any(BankAccount.class));
+
+	}
+
+	@Test
+	public void tryToCreateBankAccountIfBankAccountDoesNotExistsAndnullReturned() {
+		// arrange
+		User user = new User();
+		Account account = new Account();
+		account.setUser(user);
+		user.setAccount(account);
+		BankAccount bankAccount = new BankAccount(account, "noaccount");
+		account.setBankAccount(bankAccount);
+
+		// act
+		BankAccount result = bankAccountServiceImpl.createBankAccount(user, "noaccount");
+
+		// assert
+		assertThat(result).isNull();
+		verify(bankAccountRepository, times(0)).save(any(BankAccount.class));
 	}
 
 }
