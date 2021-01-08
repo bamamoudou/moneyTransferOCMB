@@ -8,16 +8,16 @@ import com.paymybuddy.moneytranfer.models.User;
 
 public interface TransactionService {
 
-	public List<Transaction> findTransactionListByTransactionType(String transactionType);
+	public List<Transaction> findTransactionsByTransactionType(String transactionType);
 
-	public List<Transaction> findTransactionListByAccount(Account account);
+	public List<Transaction> findTransactionsByAccount(Account account);
 
-	public void createTransactionByTransferToFriend(User sendingUser, String receivingUserEmail, String description,
+	public void createTransactionByPayMyBuddy(User sendingUser, String receivingUserEmail, String description,
 			String amount);
 
-	public void createTransactionByTransferToBank(User sendingUser);
+	public void createTransactionByTransferToBankAccount(User sendingUser);
 
-	public void createTransactionByAddMoney(User sendingUser, String amount);
+	public void createTransactionByCreditMyAccount(User sendingUser, String amount);
 
 	public boolean isInCurrencyFormat(String amount);
 
