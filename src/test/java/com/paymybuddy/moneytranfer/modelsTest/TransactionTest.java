@@ -2,6 +2,8 @@ package com.paymybuddy.moneytranfer.modelsTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -46,23 +48,34 @@ public class TransactionTest {
 
 	@Mock
 	private static TransactionType transactionTypeSet;
+	
+	MathContext mc = new MathContext(3);
 
 	@BeforeEach
 	public void initTest() {
-		transaction = new Transaction(1, transactionType, account, 1, currencyId, bankAccount, createdAt, 100.0,
-				"Transfer from bank", 0.75);
-
+		transaction = new Transaction();
 	}
 
 	@Test
 	public void gettersTest() {
+		transaction.setId(1);
+		transaction.setAccount(account);
+		transaction.setDescription("Transfer from bank");
+		transaction.setAmount(new BigDecimal(100.0));
+		transaction.setBankAccount(bankAccount);
+		transaction.setCreatedAt(createdAt);
+		transaction.setFee(new BigDecimal(0.5));
+		transaction.setRecipientAccountId(1);
+		transaction.setTransactionType(transactionType);
+		transaction.setTransactionCurrencyId(currencyId);
+
 		assertThat(transaction.getId()).isEqualTo(1);
 		assertThat(transaction.getAccount()).isEqualTo(account);
 		assertThat(transaction.getDescription()).isEqualTo("Transfer from bank");
-		assertThat(transaction.getAmount()).isEqualTo(100.0);
+		assertThat(transaction.getAmount()).isEqualTo(new BigDecimal(100.0).round(mc));
 		assertThat(transaction.getBankAccount()).isEqualTo(bankAccount);
 		assertThat(transaction.getCreatedAt()).isEqualTo(createdAt);
-		assertThat(transaction.getFee()).isEqualTo(0.75);
+		assertThat(transaction.getFee()).isEqualTo(new BigDecimal(0.5).round(mc));
 		assertThat(transaction.getRecipientAccountId()).isEqualTo(1);
 		assertThat(transaction.getTransactionType()).isEqualTo(transactionType);
 		assertThat(transaction.getTransactionCurrencyId()).isEqualTo(currencyId);
@@ -73,21 +86,22 @@ public class TransactionTest {
 		transaction.setId(2);
 		transaction.setAccount(accountSet);
 		transaction.setDescription("Transfer to friend");
-		transaction.setAmount(200.0);
+		transaction.setAmount(new BigDecimal(200.00));
 		transaction.setBankAccount(bankAccountSet);
 		transaction.setCreatedAt(createdAtSet);
-		transaction.setFee(1.00);
+		transaction.setFee(new BigDecimal(1.00));
 		transaction.setRecipientAccountId(2);
 		transaction.setTransactionType(transactionTypeSet);
 		transaction.setTransactionCurrencyId(currencyIdSet);
+		
 
 		assertThat(transaction.getId()).isEqualTo(2);
 		assertThat(transaction.getAccount()).isEqualTo(accountSet);
 		assertThat(transaction.getDescription()).isEqualTo("Transfer to friend");
-		assertThat(transaction.getAmount()).isEqualTo(200.0);
+		assertThat(transaction.getAmount()).isEqualTo(new BigDecimal(200.00).round(mc));
 		assertThat(transaction.getBankAccount()).isEqualTo(bankAccountSet);
 		assertThat(transaction.getCreatedAt()).isEqualTo(createdAtSet);
-		assertThat(transaction.getFee()).isEqualTo(1.00);
+		assertThat(transaction.getFee()).isEqualTo(new BigDecimal(1.00).round(mc));
 		assertThat(transaction.getRecipientAccountId()).isEqualTo(2);
 		assertThat(transaction.getTransactionType()).isEqualTo(transactionTypeSet);
 		assertThat(transaction.getTransactionCurrencyId()).isEqualTo(currencyIdSet);

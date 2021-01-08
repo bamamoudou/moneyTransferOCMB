@@ -1,5 +1,6 @@
 package com.paymybuddy.moneytranfer.models;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -60,15 +61,15 @@ public class Transaction {
 	private Date createdAt;
 
 	@NotNull
-	private Double amount;
+	private BigDecimal amount;
 
 	private String description;
 
-	private Double fee;
+	private BigDecimal fee;
 
 	public Transaction(int id, TransactionType transactionType, Account account, int recipientAccountId,
-			Currency transactionCurrencyId, BankAccount bankAccount, Date createdAt, Double amount, String description,
-			Double fee) {
+			Currency transactionCurrencyId, BankAccount bankAccount, Date createdAt, BigDecimal amount, String description,
+			BigDecimal fee) {
 		super();
 		this.id = id;
 		this.transactionType = transactionType;
@@ -85,13 +86,13 @@ public class Transaction {
 	public Transaction() {
 	};
 
-	public Transaction(Account account, int recipientAccountId, @NotNull Double amount) {
+	public Transaction(Account account, int recipientAccountId, @NotNull BigDecimal amount) {
 		this.account = account;
 		this.recipientAccountId = recipientAccountId;
 		this.amount = amount;
 	}
 
-	public Transaction(Account account, BankAccount bankAccount, Double amount) {
+	public Transaction(Account account, BankAccount bankAccount, BigDecimal amount) {
 		this.account = account;
 		this.bankAccount = bankAccount;
 		this.amount = amount;
@@ -153,11 +154,11 @@ public class Transaction {
 		this.createdAt = createdAt;
 	}
 
-	public Double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
@@ -169,11 +170,11 @@ public class Transaction {
 		this.description = description;
 	}
 
-	public Double getFee() {
+	public BigDecimal getFee() {
 		return fee;
 	}
 
-	public void setFee(Double fee) {
+	public void setFee(BigDecimal fee) {
 		this.fee = fee;
 	}
 
