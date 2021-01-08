@@ -1,5 +1,6 @@
 package com.paymybuddy.moneytranfer.models;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -39,7 +40,7 @@ public class Account {
 	private Currency currency;
 
 	@NotNull
-	private Double balance;
+	private BigDecimal balance;
 
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Transaction> transactions;
@@ -51,7 +52,7 @@ public class Account {
 
 	}
 
-	public Account(User user, AccountType accountType, Currency currency, @NotNull Double balance) {
+	public Account(User user, AccountType accountType, Currency currency, @NotNull BigDecimal balance) {
 		this.user = user;
 		this.accountType = accountType;
 		this.currency = currency;
@@ -90,11 +91,11 @@ public class Account {
 		this.currency = currency;
 	}
 
-	public Double getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Double balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 

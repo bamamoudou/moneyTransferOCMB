@@ -2,6 +2,8 @@ package com.paymybuddy.moneytranfer.modelsTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -51,20 +53,19 @@ public class AccountTest {
 
 	@Mock
 	private static List<Transaction> transactionsSet;
+	
+	MathContext mc = new MathContext(3);
 
 	@BeforeEach
 	public void initTest() {
-		//account = new Account(1, user, accountType, currency, 10.5, transactions, bankAccount);
 		account = new Account();
-	
-
 	}
 
 	@Test
 	public void gettersTest() {
 		account.setId(1);
 		account.setAccountType(accountType);
-		account.setBalance(10.5);
+		account.setBalance(new BigDecimal(10.5));
 		account.setBankAccount(bankAccount);
 		account.setUser(user);
 		account.setCurrency(currency);
@@ -72,7 +73,7 @@ public class AccountTest {
 		
 		assertThat(account.getId()).isEqualTo(1);
 		assertThat(account.getAccountType()).isEqualTo(accountType);
-		assertThat(account.getBalance()).isEqualTo(10.5);
+		assertThat(account.getBalance()).isEqualTo(new BigDecimal(10.5).round(mc));
 		assertThat(account.getBankAccount()).isEqualTo(bankAccount);
 		assertThat(account.getUser()).isEqualTo(user);
 		assertThat(account.getCurrency()).isEqualTo(currency);
@@ -84,7 +85,7 @@ public class AccountTest {
 	public void settersTest() {
 		account.setId(2);
 		account.setAccountType(accountTypeSet);
-		account.setBalance(9.0);
+		account.setBalance(new BigDecimal(9.0));
 		account.setBankAccount(bankAccountSet);
 		account.setUser(userSet);
 		account.setCurrency(currencySet);
@@ -92,7 +93,7 @@ public class AccountTest {
 
 		assertThat(account.getId()).isEqualTo(2);
 		assertThat(account.getAccountType()).isEqualTo(accountTypeSet);
-		assertThat(account.getBalance()).isEqualTo(9.0);
+		assertThat(account.getBalance()).isEqualTo(new BigDecimal(9.0).round(mc));
 		assertThat(account.getBankAccount()).isEqualTo(bankAccountSet);
 		assertThat(account.getUser()).isEqualTo(userSet);
 		assertThat(account.getCurrency()).isEqualTo(currencySet);
