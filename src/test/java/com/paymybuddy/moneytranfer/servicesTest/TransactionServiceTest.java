@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.paymybuddy.moneytranfer.models.Account;
+import com.paymybuddy.moneytranfer.models.BankAccount;
 import com.paymybuddy.moneytranfer.models.Role;
 import com.paymybuddy.moneytranfer.models.Transaction;
 import com.paymybuddy.moneytranfer.models.TransactionType;
@@ -138,7 +139,38 @@ public class TransactionServiceTest {
 
 		when(accountService.findAccountByUserEmail(user1.getEmail())).thenReturn(account1);
 		// act
-		transactionServiceImpl.createTransactionByPayMyBuddy(user1, user2.getEmail(),description, amountToTransfer);
+		transactionServiceImpl.createTransactionByPayMyBuddy(user1, user2.getEmail(), description, amountToTransfer);
+		// assert
+		verify(transactionRepository, times(0)).save(any(Transaction.class));
+	}
+
+	@Test
+	public void createTransactionByCreditMyAccountIfTransactionValidAndTransactionSaved() {
+		// arrange
+		BankAccount bankAccount = new BankAccount(account1, "testBankAccountNumber");
+		String amountToTransfer = "5";
+		MathContext mc = new MathContext(4);
+
+		when(accountService.findAccountByUserEmail(user1.getEmail())).thenReturn(account1);
+		when(bankAccountService.findBankAccountByAccount(account1)).thenReturn(bankAccount);
+
+		// act
+		transactionServiceImpl.createTransactionByCreditMyAccount(user1, amountToTransfer);
+
+		// assert
+		verify(transactionRepository, times(1)).save(any(Transaction.class));
+		assertThat(account1.getBalance()).isEqualTo(new BigDecimal(5.00).round(mc));
+	}
+
+	@Test
+	public void createTransactionByCreditMyAccountIfTransactionInvalidAndTransactionNotSaved() {
+		// arrange
+		String amountToTransfer = "10.0";
+		String description = "Test transaction";
+
+		when(accountService.findAccountByUserEmail(user1.getEmail())).thenReturn(account1);
+		// act
+		transactionServiceImpl.createTransactionByPayMyBuddy(user1, user2.getEmail(), description, amountToTransfer);
 		// assert
 		verify(transactionRepository, times(0)).save(any(Transaction.class));
 	}

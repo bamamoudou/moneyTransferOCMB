@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.paymybuddy.moneytranfer.models.Account;
+import com.paymybuddy.moneytranfer.models.BankAccount;
 import com.paymybuddy.moneytranfer.models.Transaction;
 import com.paymybuddy.moneytranfer.models.User;
 import com.paymybuddy.moneytranfer.repositories.TransactionRepository;
@@ -64,7 +65,7 @@ public class TransactionServiceImpl implements TransactionService {
 			Transaction newTransaction = new Transaction(sendingAccount, receivingAccount.getId(), transactionAmount);
 			newTransaction
 					.setTransactionType(transactionTypeRepository.findTransactionTypeByTransactionType("PayMyBuddy"));
-			newTransaction.setTransactionCurrencyId(currencyService.findCurrencyByCurrencyLabel("USD"));
+			newTransaction.setTransactionCurrencyId(currencyService.findCurrencyByCurrencyLabel("EURO"));
 			newTransaction.setDescription(description);
 			newTransaction.setFee(transactionAmount.multiply(transactionFee));
 			transactionRepository.save(newTransaction);
@@ -86,7 +87,25 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public void createTransactionByCreditMyAccount(User sendingUser, String amount) {
-		// TODO Auto-generated method stub
+		Account sendingAccount = accountService.findAccountByUserEmail(sendingUser.getEmail());
+		if (bankAccountService.findBankAccountByAccount(sendingAccount) != null) {
+			BigDecimal transactionAmount = new BigDecimal(amount);
+			if (transactionValidator("CreditMyAccount", sendingUser.getEmail(), transactionAmount)) {
+				BigDecimal sendingAccountBalanceBefore = sendingAccount.getBalance();
+				BankAccount sendingAccountBankAccount = sendingAccount.getBankAccount();
+
+				Transaction newTransaction = new Transaction(sendingAccount, sendingAccountBankAccount, transactionAmount);
+				newTransaction.setTransactionType(
+						transactionTypeRepository.findTransactionTypeByTransactionType("CreditMyAccount"));
+				newTransaction.setTransactionCurrencyId(currencyService.findCurrencyByCurrencyLabel("EURO"));
+				newTransaction.setDescription("Adding money from bank account.");
+				newTransaction.setFee(new BigDecimal(0.0));
+				transactionRepository.save(newTransaction);
+
+				sendingAccount.setBalance(sendingAccountBalanceBefore.add(transactionAmount));
+				accountService.updateAccount(sendingAccount);
+			}
+		}
 
 	}
 
