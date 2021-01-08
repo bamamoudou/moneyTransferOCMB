@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.hamcrest.Matchers;
@@ -118,11 +119,11 @@ public class AccountServiceTest {
 		Account account = new Account();
 		account.setId(1);
 		account.setUser(user);
-		account.setBalance(new Double(0.0));
+		account.setBalance(new BigDecimal(0.0));
 		user.setAccount(account);
-		assertThat(new Double(0.0), Matchers.comparesEqualTo(account.getBalance()));
+		assertThat(new BigDecimal(0.0), Matchers.comparesEqualTo(account.getBalance()));
 
-		account.setBalance(new Double(10.0));
+		account.setBalance(new BigDecimal(10.0));
 		Optional<Account> optionalOfAccount = Optional.of(account);
 		when(accountRepository.findById(1)).thenReturn(optionalOfAccount);
 
@@ -130,7 +131,7 @@ public class AccountServiceTest {
 		accountServiceImpl.updateAccount(account);
 
 		// assert
-		assertThat(new Double(10.0), Matchers.comparesEqualTo(account.getBalance()));
+		assertThat(new BigDecimal(10.0), Matchers.comparesEqualTo(account.getBalance()));
 		verify(accountRepository, times(1)).save(any(Account.class));
 	}
 
