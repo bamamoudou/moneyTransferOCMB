@@ -1,5 +1,6 @@
 package com.paymybuddy.moneytranfer.servicesImpl;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
 		// Creating a new account for the user with 0.00 £ balance
 		Account account = new Account(registeredUser, accountService.findAccountTypeByAccountType("User"),
-				currencyService.findCurrencyByCurrencyLabel("Euro"), new Double(0.00));
+				currencyService.findCurrencyByCurrencyLabel("Euro"), new BigDecimal(0.00));
 		accountService.createAccount(account);
 		registeredUser.setAccount(account);
 		return userRepository.save(registeredUser);
