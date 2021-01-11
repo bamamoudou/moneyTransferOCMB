@@ -129,8 +129,15 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public boolean isInCurrencyFormat(String amount) {
-		// TODO Auto-generated method stub
-		return false;
+		if (amount == null) {
+			return false;
+		}
+		try {
+			double d = Double.parseDouble(amount);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
 
 	public boolean transactionValidator(String transactionType, String sendingUserEmail, BigDecimal transactionAmount) {

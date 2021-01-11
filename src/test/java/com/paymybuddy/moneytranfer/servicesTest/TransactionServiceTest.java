@@ -1,7 +1,6 @@
 package com.paymybuddy.moneytranfer.servicesTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -115,6 +114,85 @@ public class TransactionServiceTest {
 	}
 
 	@Test
+	public void transactionValidatorIfValidPayMyBuddyTransactionAndTrueReturned() {
+		// arrange
+		sendingAccount.setBalance(new BigDecimal(10.0));
+		BigDecimal transactionAmount = new BigDecimal(5.0);
+
+		when(accountService.findAccountByUserEmail(sendingUser.getEmail())).thenReturn(sendingAccount);
+		// act
+		boolean result = transactionServiceImpl.transactionValidator("PayMyBuddy", sendingUser.getEmail(),
+				transactionAmount);
+		// assert
+		assertThat(result).isTrue();
+	}
+
+	@Test
+	public void transactionValidatorIfInvalidPayMyBuddyTransactionIsFalseReturned() {
+		// arrange
+		sendingAccount.setBalance(new BigDecimal(10.0));
+		BigDecimal transactionAmount = new BigDecimal(20.0);
+
+		when(accountService.findAccountByUserEmail(sendingUser.getEmail())).thenReturn(sendingAccount);
+		// act
+		boolean result = transactionServiceImpl.transactionValidator("Normal", sendingUser.getEmail(), transactionAmount);
+		// assert
+		assertThat(result).isFalse();
+	}
+
+	@Test
+	public void transactionValidatorIfValidCreditMyAccountTransactionAndTrueReturned() {
+		// arrange;
+		BigDecimal transactionAmount = new BigDecimal(5.0);
+		when(accountService.findAccountByUserEmail(sendingUser.getEmail())).thenReturn(sendingAccount);
+		// act
+		boolean result = transactionServiceImpl.transactionValidator("CreditMyAccount", sendingUser.getEmail(),
+				transactionAmount);
+		// assert
+		assertThat(result).isTrue();
+	}
+
+	@Test
+	public void transactionValidatorIfInvalidCreditMyAccountTransactionAndFalseReturned() {
+		// arrange;
+		BigDecimal transactionAmount = new BigDecimal(0.0);
+
+		when(accountService.findAccountByUserEmail(sendingUser.getEmail())).thenReturn(sendingAccount);
+		// act
+		boolean result = transactionServiceImpl.transactionValidator("CreditMyAccount", sendingUser.getEmail(),
+				transactionAmount);
+		// assert
+		assertThat(result).isFalse();
+	}
+
+	@Test
+	public void transactionValidatorIfValidTransferToBankAccountTransactionAndTrueReturned() {
+		// arrange;
+		sendingAccount.setBalance(new BigDecimal(10.0));
+		BigDecimal transactionAmount = new BigDecimal(10.0);
+
+		when(accountService.findAccountByUserEmail(sendingUser.getEmail())).thenReturn(sendingAccount);
+		// act
+		boolean result = transactionServiceImpl.transactionValidator("TransferToBankAccount", sendingUser.getEmail(),
+				transactionAmount);
+		// assert
+		assertThat(result).isTrue();
+	}
+
+	@Test
+	public void transactionValidator_invalidTransferToBankAccountTransactionAndFalseReturned() {
+		// arrange;
+		BigDecimal transactionAmount = new BigDecimal(0.0);
+
+		when(accountService.findAccountByUserEmail(sendingUser.getEmail())).thenReturn(sendingAccount);
+		// act
+		boolean result = transactionServiceImpl.transactionValidator("TransferToBankAccount", sendingUser.getEmail(),
+				transactionAmount);
+		// assert
+		assertThat(result).isFalse();
+	}
+
+	@Test
 	public void createTransactionByPayMyBuddyIfTransactionValidAndTransactionSaved() {
 		// arrange
 		sendingAccount.setBalance(new BigDecimal(10.0));
@@ -192,7 +270,7 @@ public class TransactionServiceTest {
 		transactionServiceImpl.createTransactionByTransferToBankAccount(sendingUser);
 		// assert
 		verify(transactionRepository, times(1)).save(any(Transaction.class));
-		assertEquals(new BigDecimal(0.0).round(mc), sendingAccount.getBalance());
+		assertThat(sendingAccount.getBalance()).isEqualTo(new BigDecimal(0.0).round(mc));
 	}
 
 	@Test
@@ -216,6 +294,26 @@ public class TransactionServiceTest {
 		transactionServiceImpl.createTransactionByTransferToBankAccount(sendingUser);
 		// assert
 		verify(transactionRepository, times(0)).save(any(Transaction.class));
+	}
+
+	@Test
+	public void isInCurrencyFormatIfValidCurrencyFormatAndTrueReturned() {
+		// arrange
+		String amount = "10";
+		// act
+		boolean result = transactionServiceImpl.isInCurrencyFormat(amount);
+		// assert
+		assertThat(result).isTrue();
+	}
+
+	@Test
+	public void isInCurrencyFormatIfInvalidCurrencyFormatAndFalseReturned() {
+		// arrange
+		String amount = "&*DSlfkdsfslfdj";
+		// act
+		boolean result = transactionServiceImpl.isInCurrencyFormat(amount);
+		// assert
+		assertThat(result).isFalse();
 	}
 
 }
