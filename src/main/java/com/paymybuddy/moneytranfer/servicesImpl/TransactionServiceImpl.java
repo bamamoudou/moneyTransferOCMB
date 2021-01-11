@@ -81,7 +81,25 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public void createTransactionByTransferToBankAccount(User sendingUser) {
-		// TODO Auto-generated method stub
+		Account sendingAccount = accountService.findAccountByUserEmail(sendingUser.getEmail());
+		if (bankAccountService.findBankAccountByAccount(sendingAccount) != null) {
+			BigDecimal sendingAccountBalanceBefore = sendingAccount.getBalance();
+			if (transactionValidator("TransferToBankAccount", sendingUser.getEmail(), sendingAccountBalanceBefore)) {
+				BankAccount sendingAccountBankAccount = sendingAccount.getBankAccount();
+
+				Transaction newTransaction = new Transaction(sendingAccount, sendingAccountBankAccount,
+						sendingAccountBalanceBefore);
+				newTransaction.setTransactionType(
+						transactionTypeRepository.findTransactionTypeByTransactionType("TransferToBankAccount"));
+				newTransaction.setTransactionCurrencyId(currencyService.findCurrencyByCurrencyLabel("EURO"));
+				newTransaction.setDescription("Transferring money back to bank.");
+				newTransaction.setFee(new BigDecimal(0.0));
+				transactionRepository.save(newTransaction);
+
+				sendingAccount.setBalance(new BigDecimal(0.0));
+				accountService.updateAccount(sendingAccount);
+			}
+		}
 
 	}
 
