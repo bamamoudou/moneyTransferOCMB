@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.paymybuddy.moneytranfer.models.Account;
 import com.paymybuddy.moneytranfer.models.BankAccount;
@@ -17,6 +18,7 @@ import com.paymybuddy.moneytranfer.services.BankAccountService;
 import com.paymybuddy.moneytranfer.services.CurrencyService;
 import com.paymybuddy.moneytranfer.services.TransactionService;
 
+@Service
 public class TransactionServiceImpl implements TransactionService {
 	private TransactionRepository transactionRepository;
 	private TransactionTypeRepository transactionTypeRepository;
