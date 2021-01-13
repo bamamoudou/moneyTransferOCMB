@@ -4,7 +4,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
@@ -21,7 +20,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -173,6 +171,69 @@ public class TransactionControllerTest {
 
 		mockMvc.perform(post("/user/transfer").queryParam("email", user.getEmail()).queryParam("description", description)
 				.queryParam("amount", amount)).andExpect(status().isOk());
+	}
+
+	@Test
+	public void postTransferIfUserIsNotLoggedInAndStatusIsClientError() throws Exception {
+		mockMvc.perform(post("/user/transfer").requestAttr("user", user)).andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	public void getTransactionsLogIfAdminIsLoggedInAndStatusISuccessful() throws Exception {
+		User adminUser = new User();
+		adminUser.setEmail("admin@test.fr");
+		adminUser.setPassword("test123");
+		adminUser.setName("admin");
+		adminUser.setRole(new Role("Admin"));
+
+		when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(auth);
+		when(userService.getUserFromAuth(auth)).thenReturn(adminUser);
+
+		mockMvc.perform(get("/admin/transactions")).andExpect(status().is2xxSuccessful());
+	}
+
+	@Test
+	public void profileIfUserIsLoggedInAndStatusISuccessful() throws Exception {
+		user.setAccount(userAccount);
+		when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(auth);
+		when(userService.getUserFromAuth(auth)).thenReturn(user);
+
+		mockMvc.perform(get("/user/profile")).andExpect(status().is2xxSuccessful());
+	}
+
+	@Test
+	public void postAddBankAccountIfUserIsLoggedInAndStatusIsSuccess() throws Exception {
+		user.setAccount(userAccount);
+		BankAccount bankAccount = new BankAccount();
+		bankAccount.setBankAccountNumber("testBankAccountNumber");
+
+		when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(auth);
+		when(userService.getUserFromAuth(auth)).thenReturn(user);
+		when(bankAccountService.createBankAccount(user, "testBankAccountNumber")).thenReturn(bankAccount);
+
+		mockMvc.perform(post("/user/addBankAccount").queryParam("bankAccountNumber", "testBankAccountNumber"))
+				.andExpect(status().is2xxSuccessful());
+	}
+
+	@Test
+	public void postCreditAccountIfUserIsLoggedInAndStatusIsSuccess() throws Exception {
+		user.setAccount(userAccount);
+		String amount = "100.00";
+
+		when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(auth);
+		when(userService.getUserFromAuth(auth)).thenReturn(user);
+
+		mockMvc.perform(post("/user/creditAccount").queryParam("amount", amount)).andExpect(status().is2xxSuccessful());
+	}
+
+	@Test
+	public void postTransferToBankAccountIfUserIsLoggedInAndStatusIsSuccess() throws Exception {
+		user.setAccount(userAccount);
+
+		when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(auth);
+		when(userService.getUserFromAuth(auth)).thenReturn(user);
+
+		mockMvc.perform(post("/user/transferToBankAccount")).andExpect(status().is2xxSuccessful());
 	}
 
 }

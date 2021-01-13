@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.paymybuddy.moneytranfer.models.Transaction;
 import com.paymybuddy.moneytranfer.models.TransactionDTO;
+import com.paymybuddy.moneytranfer.models.TransactionOrderDTO;
 import com.paymybuddy.moneytranfer.models.User;
 import com.paymybuddy.moneytranfer.services.AccountService;
 import com.paymybuddy.moneytranfer.services.BankAccountService;
@@ -83,10 +82,86 @@ public class TransactionController {
 			@RequestParam String amount) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User userFromAuth = userService.getUserFromAuth(auth);
-		LOGGER.debug("HTTP POST request received for postTransfer: {} {} {} {}", userFromAuth, email, description, amount);
+		LOGGER.debug("HTTP POST request received for postTransfer: {} {} {} {}", userFromAuth, email, description,
+				amount);
 		if (userFromAuth != null) {
 			transactionService.createTransactionByPayMyBuddy(userFromAuth, email, description, amount);
 			LOGGER.info("HTTP POST request received for postTransfer, SUCCESS");
+		} else {
+			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+		}
+		return new ResponseEntity<>("New transfer carry out", HttpStatus.OK);
+	}
+
+	@GetMapping("/admin/transactions")
+	public ResponseEntity<String> getTransactionsLogIfAdminLogginded() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.getUserFromAuth(auth);
+		if (user != null && user.getRole().getName().equals("Admin")) {
+			List<Transaction> transactions = transactionService.findTransactionsByTransactionType("PayMyBuddy");
+			List<TransactionOrderDTO> transactionOrderDTOList = new ArrayList<>();
+			for (Transaction transaction : transactions) {
+				TransactionOrderDTO transactionOrderDTO = new TransactionOrderDTO();
+				transactionOrderDTO.setFromUserEmail(transaction.getAccount().getUser().getEmail());
+				transactionOrderDTO.setToUserEmail(
+						accountService.findAccountById(transaction.getRecipientAccountId()).getUser().getEmail());
+				transactionOrderDTO.setDescription(transaction.getDescription());
+				transactionOrderDTO.setAmount(transaction.getAmount().toString());
+				transactionOrderDTO.setFee(transaction.getFee().toString());
+				transactionOrderDTO.setDate(transaction.getCreatedAt().toString());
+				transactionOrderDTOList.add(transactionOrderDTO);
+			}
+		} else {
+			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+		}
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	@GetMapping("/user/profile")
+	public ResponseEntity<String> profile() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.getUserFromAuth(auth);
+		if (user != null) {
+			// modelAndView.setViewName("profile");
+			// modelAndView.addObject("user", user);
+			// modelAndView.addObject("bankAccount", user.getAccount().getBankAccount());;
+			user.getAccount().getBankAccount();
+		} else {
+			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+		}
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	@PostMapping("/user/addBankAccount")
+	public ResponseEntity<String> postAddBankAccount(@RequestParam String bankAccountNumber) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User userFromAuth = userService.getUserFromAuth(auth);
+		if (userFromAuth != null) {
+			bankAccountService.createBankAccount(userFromAuth, bankAccountNumber);
+		} else {
+			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+		}
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	@PostMapping("/user/creditAccount")
+	public ResponseEntity<String> postCreditAccount(@RequestParam String amount) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User userFromAuth = userService.getUserFromAuth(auth);
+		if (userFromAuth != null) {
+			transactionService.createTransactionByCreditMyAccount(userFromAuth, amount);
+		} else {
+			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+		}
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	@PostMapping("/user/transferToBankAccount")
+	public ResponseEntity<String> postTransferToBankAccount() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User userFromAuth = userService.getUserFromAuth(auth);
+		if (userFromAuth != null) {
+			transactionService.createTransactionByTransferToBankAccount(userFromAuth);
 		} else {
 			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
 		}
@@ -99,6 +174,12 @@ public class TransactionController {
 		transactionDTO.setAmount(transaction.getAmount().toString());
 		transactionDTO.setDescription(transaction.getDescription());
 		transactionDTOList.add(transactionDTO);
+	}
+
+	public Boolean isBankAccountLinked() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.getUserFromAuth(auth);
+		return (user.getAccount().getBankAccount() != null);
 	}
 
 }
