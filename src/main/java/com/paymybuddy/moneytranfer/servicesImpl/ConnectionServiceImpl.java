@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.paymybuddy.moneytranfer.models.Connection;
 import com.paymybuddy.moneytranfer.models.User;
@@ -11,6 +12,7 @@ import com.paymybuddy.moneytranfer.repositories.ConnectionRepository;
 import com.paymybuddy.moneytranfer.services.ConnectionService;
 import com.paymybuddy.moneytranfer.services.UserService;
 
+@Service
 public class ConnectionServiceImpl implements ConnectionService {
 
 	private ConnectionRepository connectionRepository;

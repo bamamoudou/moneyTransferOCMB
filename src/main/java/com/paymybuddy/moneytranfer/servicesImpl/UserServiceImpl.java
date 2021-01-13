@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.paymybuddy.moneytranfer.models.Account;
 import com.paymybuddy.moneytranfer.models.User;
@@ -17,6 +18,7 @@ import com.paymybuddy.moneytranfer.services.CurrencyService;
 import com.paymybuddy.moneytranfer.services.RoleService;
 import com.paymybuddy.moneytranfer.services.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;

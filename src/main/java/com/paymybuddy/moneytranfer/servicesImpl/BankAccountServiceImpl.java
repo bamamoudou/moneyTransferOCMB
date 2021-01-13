@@ -1,6 +1,7 @@
 package com.paymybuddy.moneytranfer.servicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.paymybuddy.moneytranfer.models.Account;
 import com.paymybuddy.moneytranfer.models.BankAccount;
@@ -8,6 +9,7 @@ import com.paymybuddy.moneytranfer.models.User;
 import com.paymybuddy.moneytranfer.repositories.BankAccountRepository;
 import com.paymybuddy.moneytranfer.services.BankAccountService;
 
+@Service
 public class BankAccountServiceImpl implements BankAccountService {
 
 	private BankAccountRepository bankAccountRepository;
