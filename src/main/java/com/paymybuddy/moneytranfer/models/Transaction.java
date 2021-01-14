@@ -55,7 +55,7 @@ public class Transaction {
 	@JoinColumn(name = "fk_bank_account_id")
 	private BankAccount bankAccount;
 
-	@Column(name = "createdAt", nullable = false, updatable = false)
+	@Column(name = "createdAt")
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
