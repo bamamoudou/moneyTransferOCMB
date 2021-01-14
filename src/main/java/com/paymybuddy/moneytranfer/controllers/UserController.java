@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,17 +37,18 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<String> registerNewUser(User user, BindingResult result, @RequestParam String email,
-			String password, String name) {
+	public ResponseEntity<String> registerNewUser(@RequestBody User user) {
 
 		User userExists = userService.findUserByEmail(user.getEmail());
 		if (userExists != null) {
-			result.rejectValue("email", "error-registration", "The email you entered is already taken.");
+			return new ResponseEntity<String>("The email you entered is already taken.", HttpStatus.BAD_REQUEST);
+			
 		} else {
+
 			userService.createUserByRegistration(user);
 
 		}
-		return new ResponseEntity<String>("New user added", HttpStatus.OK);
+		return new ResponseEntity<String>("Registration Ok", HttpStatus.OK);
 	}
 
 	@GetMapping("/user/addConnection")
@@ -64,7 +66,7 @@ public class UserController {
 				connectionService.createConnection(userFromAuth, user.getEmail());
 			} else {
 				result.rejectValue("email", "error-addConnection",
-						"The email you entered isn't registered with our system.");
+						"The email you entered isn't registered in our system.");
 			}
 		}
 
