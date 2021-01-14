@@ -29,17 +29,35 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/login**").permitAll()
-				.antMatchers("/perform_login").permitAll().antMatchers("/register").permitAll().antMatchers("/admin**")
-				.hasRole("Admin").antMatchers("/user**").hasAnyRole("Admin", "User").and().csrf().disable().httpBasic()
-				.and().formLogin().loginPage("/login").loginProcessingUrl("/perform_login").usernameParameter("email")
-				.passwordParameter("password").defaultSuccessUrl("/user/home", true).failureUrl("/login?error=true").and()
-				.logout().logoutSuccessUrl("/login?logout=true").and().exceptionHandling().accessDeniedPage("/403");
+		 http
+       .authorizeRequests()
+       .antMatchers("/").permitAll()
+       .antMatchers("/login**").permitAll()
+       .antMatchers("/perform_login").permitAll()
+       .antMatchers("/register").permitAll()
+       .antMatchers("/admin**").hasRole("Admin")
+       .antMatchers("/user**").hasAnyRole("Admin", "User")
+       .and().csrf().disable()
+       .httpBasic()
+       .and()
+       .formLogin()
+       .loginPage("/login")
+       .loginProcessingUrl("/perform_login")
+       .usernameParameter("email")
+       .passwordParameter("password")
+       .defaultSuccessUrl("/user/home", true)
+       .failureUrl("/login?error=true")
+       .and()
+       .logout()
+       .logoutSuccessUrl("/login?logout=true")
+       .and()
+       .exceptionHandling().accessDeniedPage("/403");
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/images/**");
+		// web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**",
+		// "/images/**");
 	}
 
 	@Bean
