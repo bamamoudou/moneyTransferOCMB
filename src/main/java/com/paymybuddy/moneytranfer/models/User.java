@@ -1,6 +1,5 @@
 package com.paymybuddy.moneytranfer.models;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,15 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -51,16 +46,6 @@ public class User {
 	@Size(min = 5, max = 60, message = "Passwords need to be between 5-60 characters.")
 	private String password;
 
-	@Column(name = "created_at", nullable = false, updatable = false)
-	@CreatedDate
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdAt;
-
-	@Column(name = "updated_at")
-	@LastModifiedDate
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updatedAt;
-
 	@Type(type = "numeric_boolean")
 	private boolean isActive;
 
@@ -70,16 +55,14 @@ public class User {
 	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Account account;
 
-	public User(int id, Role role, String name, String email, String password, Date createdAt, Date updatedAt,
-			boolean isActive, List<Connection> connections, Account account) {
+	public User(int id, Role role, String name, String email, String password, boolean isActive,
+			List<Connection> connections, Account account) {
 		super();
 		this.id = id;
 		this.role = role;
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
 		this.isActive = isActive;
 		this.connections = connections;
 		this.account = account;
@@ -135,22 +118,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public boolean isActive() {

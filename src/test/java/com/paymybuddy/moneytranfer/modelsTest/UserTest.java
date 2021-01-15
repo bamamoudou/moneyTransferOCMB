@@ -49,7 +49,7 @@ public class UserTest {
 
 	@BeforeEach
 	public void initTest() {
-		user = new User(1, role, "Doro", "doro@doro.fr", "mdp", createdAt, updatedAt, true, connections, account);
+		user = new User(1, role, "Doro", "doro@doro.fr", "mdp", true, connections, account);
 
 	}
 
@@ -60,8 +60,6 @@ public class UserTest {
 		assertThat(user.getName()).isEqualTo("Doro");
 		assertThat(user.getEmail()).isEqualTo("doro@doro.fr");
 		assertThat(user.getPassword()).isEqualTo("mdp");
-		assertThat(user.getCreatedAt()).isEqualTo(createdAt);
-		assertThat(user.getUpdatedAt()).isEqualTo(updatedAt);
 		assertThat(user.isActive()).isEqualTo(true);
 		assertThat(user.getConnections()).isEqualTo(connections);
 		assertThat(user.getAccount()).isEqualTo(account);
@@ -75,8 +73,6 @@ public class UserTest {
 		user.setName("Mamoudou");
 		user.setEmail("ma@ma.fr");
 		user.setPassword("pwd");
-		user.setCreatedAt(createdAtSet);
-		user.setUpdatedAt(updatedAtSet);
 		user.setActive(false);
 		user.setConnections(connectionsSet);
 		user.setAccount(accountSet);
@@ -86,8 +82,6 @@ public class UserTest {
 		assertThat(user.getName()).isEqualTo("Mamoudou");
 		assertThat(user.getEmail()).isEqualTo("ma@ma.fr");
 		assertThat(user.getPassword()).isEqualTo("pwd");
-		assertThat(user.getCreatedAt()).isEqualTo(createdAtSet);
-		assertThat(user.getUpdatedAt()).isEqualTo(updatedAtSet);
 		assertThat(user.isActive()).isEqualTo(false);
 		assertThat(user.getConnections()).isEqualTo(connectionsSet);
 		assertThat(user.getAccount()).isEqualTo(accountSet);
