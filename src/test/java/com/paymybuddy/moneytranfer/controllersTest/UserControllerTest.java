@@ -1,10 +1,7 @@
 package com.paymybuddy.moneytranfer.controllersTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,7 +20,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -85,7 +81,7 @@ public class UserControllerTest {
 		when(userServiceMock.findUserByEmail(user.getEmail())).thenReturn(user);
 
 		mockMvc.perform(post("/register"))
-				.andExpect(status().isBadRequest()).andReturn();
+				.andExpect(status().isBadRequest());
 	}
 
 	//@Test
