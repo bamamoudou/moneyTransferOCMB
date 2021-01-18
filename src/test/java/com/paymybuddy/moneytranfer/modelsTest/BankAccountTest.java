@@ -17,23 +17,18 @@ import com.paymybuddy.moneytranfer.models.Transaction;
 @RunWith(MockitoJUnitRunner.class)
 public class BankAccountTest {
 	private BankAccount bankAccount;
-
 	@Mock
 	private static Account account;
-
 	@Mock
 	private static Account accountSet;
-
 	@Mock
 	private static List<Transaction> transactions;
-
 	@Mock
 	private static List<Transaction> transactionsSet;
 
 	@BeforeEach
 	public void initTest() {
 		bankAccount = new BankAccount(1, account, "FBN1", transactions);
-
 	}
 
 	@Test
@@ -56,5 +51,4 @@ public class BankAccountTest {
 		assertThat(bankAccount.getAccount()).isEqualTo(accountSet);
 		assertThat(bankAccount.getTransactions()).isEqualTo(transactionsSet);
 	}
-
 }

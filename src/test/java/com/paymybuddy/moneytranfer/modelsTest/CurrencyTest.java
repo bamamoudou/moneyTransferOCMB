@@ -17,7 +17,6 @@ public class CurrencyTest {
 	@BeforeEach
 	public void initTest() {
 		currency = new Currency(1, "£", "Euro");
-
 	}
 
 	@Test
@@ -37,5 +36,4 @@ public class CurrencyTest {
 		assertThat(currency.getLabel()).isEqualTo("$");
 		assertThat(currency.getDescription()).isEqualTo("Dollar US");
 	}
-
 }

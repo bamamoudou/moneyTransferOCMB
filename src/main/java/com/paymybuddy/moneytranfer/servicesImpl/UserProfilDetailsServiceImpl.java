@@ -37,5 +37,4 @@ public class UserProfilDetailsServiceImpl implements UserDetailsService {
 		UserProfilDetails userDetails = new UserProfilDetails(user, user.getRole());
 		return userDetails;
 	}
-
 }

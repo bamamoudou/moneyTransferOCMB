@@ -22,5 +22,4 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 		return currencyRepository.findCurrencyByLabel(currencyLabel);
 	}
-
 }

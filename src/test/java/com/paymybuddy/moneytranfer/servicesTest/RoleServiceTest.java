@@ -47,5 +47,4 @@ public class RoleServiceTest {
       //assert
       assertNull(result);
   }
-
 }

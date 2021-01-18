@@ -29,10 +29,10 @@ public class AccountServiceTest {
 
 	@Mock
 	private AccountRepository accountRepository;
-
+	
 	@Mock
 	private AccountTypeRepository accountTypeRepository;
-
+	
 	@InjectMocks
 	private static AccountServiceImpl accountServiceImpl;
 
@@ -51,7 +51,6 @@ public class AccountServiceTest {
 
 		// Assert
 		assertThat(result.getId()).isEqualTo(account.getId());
-
 	}
 
 	@Test
@@ -147,7 +146,6 @@ public class AccountServiceTest {
 
 		// assert
 		assertThat(accountType).isEqualTo(result);
-
 	}
 
 	@Test
@@ -159,7 +157,5 @@ public class AccountServiceTest {
 
 		// assert
 		assertThat(result).isNull();
-
 	}
-
 }

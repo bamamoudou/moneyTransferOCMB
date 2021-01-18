@@ -11,27 +11,26 @@ import com.paymybuddy.moneytranfer.models.Role;
 
 @ExtendWith(MockitoExtension.class)
 public class RoleTest {
-	
+
 	private Role role;
-	
+
 	@BeforeEach
 	public void initTest() {
 		role = new Role(1, "admin");
 	}
-	
+
 	@Test
 	public void gettersTest() {
 		assertThat(role.getId()).isEqualTo(1);
 		assertThat(role.getName()).isEqualTo("admin");
 	}
-	
+
 	@Test
 	public void settersTest() {
 		role.setId(2);
 		role.setName("user");
-		
+
 		assertThat(role.getId()).isEqualTo(2);
 		assertThat(role.getName()).isEqualTo("user");
 	}
-
 }

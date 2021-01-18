@@ -49,7 +49,6 @@ public class ConnectionServiceTest {
 
 		// assert
 		assertThat(result.size()).isEqualTo(1);
-
 	}
 
 	@Test
@@ -119,5 +118,4 @@ public class ConnectionServiceTest {
 		// assert
 		verify(connectionRepository, times(0)).save(any(Connection.class));
 	}
-
 }

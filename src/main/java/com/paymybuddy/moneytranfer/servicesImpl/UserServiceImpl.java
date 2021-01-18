@@ -80,5 +80,4 @@ public class UserServiceImpl implements UserService {
 		registeredUser.setAccount(account);
 		return userRepository.save(registeredUser);
 	}
-
 }

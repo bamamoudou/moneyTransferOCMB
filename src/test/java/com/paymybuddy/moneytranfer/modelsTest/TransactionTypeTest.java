@@ -17,7 +17,6 @@ public class TransactionTypeTest {
 	@BeforeEach
 	public void initTest() {
 		transactionType = new TransactionType(1, "Pay my buddy");
-
 	}
 
 	@Test
@@ -25,14 +24,13 @@ public class TransactionTypeTest {
 		assertThat(transactionType.getId()).isEqualTo(1);
 		assertThat(transactionType.getType()).isEqualTo("Pay my buddy");
 	}
-	
+
 	@Test
 	public void settersTest() {
 		transactionType.setId(2);
 		transactionType.setType("Credit my account");
-		
+
 		assertThat(transactionType.getId()).isEqualTo(2);
 		assertThat(transactionType.getType()).isEqualTo("Credit my account");
 	}
-
 }

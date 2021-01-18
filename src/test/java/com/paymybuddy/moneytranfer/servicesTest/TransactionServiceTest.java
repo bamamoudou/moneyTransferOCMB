@@ -35,14 +35,19 @@ import com.paymybuddy.moneytranfer.servicesImpl.TransactionServiceImpl;
 public class TransactionServiceTest {
 	@Mock
 	private TransactionRepository transactionRepository;
+
 	@Mock
 	private TransactionTypeRepository transactionTypeRepository;
+
 	@Mock
 	private AccountService accountService;
+
 	@Mock
 	private CurrencyService currencyService;
+
 	@Mock
 	private BankAccountService bankAccountService;
+
 	@InjectMocks
 	private TransactionServiceImpl transactionServiceImpl;
 	Role role;
@@ -315,5 +320,4 @@ public class TransactionServiceTest {
 		// assert
 		assertThat(result).isFalse();
 	}
-
 }

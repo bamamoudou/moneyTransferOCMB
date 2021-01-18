@@ -2,7 +2,6 @@ package com.paymybuddy.moneytranfer.modelsTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,37 +19,22 @@ import com.paymybuddy.moneytranfer.models.User;
 public class UserTest {
 
 	private User user;
-
 	@Mock
 	private static Account account;
-
 	@Mock
 	private static Account accountSet;
-
 	@Mock
 	private static List<Connection> connections;
-
 	@Mock
 	private static List<Connection> connectionsSet;
-
 	@Mock
 	private Role role;
-
 	@Mock
 	private Role roleSet;
-
-	private Date createdAt;
-
-	private Date createdAtSet;
-
-	private Date updatedAt;
-
-	private Date updatedAtSet;
 
 	@BeforeEach
 	public void initTest() {
 		user = new User(1, role, "Doro", "doro@doro.fr", "mdp", true, connections, account);
-
 	}
 
 	@Test
@@ -63,7 +47,6 @@ public class UserTest {
 		assertThat(user.isActive()).isEqualTo(true);
 		assertThat(user.getConnections()).isEqualTo(connections);
 		assertThat(user.getAccount()).isEqualTo(account);
-
 	}
 
 	@Test
@@ -85,7 +68,5 @@ public class UserTest {
 		assertThat(user.isActive()).isEqualTo(false);
 		assertThat(user.getConnections()).isEqualTo(connectionsSet);
 		assertThat(user.getAccount()).isEqualTo(accountSet);
-
 	}
-
 }

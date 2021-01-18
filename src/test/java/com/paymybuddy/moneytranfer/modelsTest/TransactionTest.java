@@ -27,28 +27,21 @@ public class TransactionTest {
 
 	@Mock
 	private static Currency currencyId;
-
 	@Mock
 	private static Currency currencyIdSet;
-
 	@Mock
 	private static BankAccount bankAccount;
-
 	@Mock
 	private static BankAccount bankAccountSet;
-
 	@Mock
 	private static Account account;
-
 	@Mock
 	private static Account accountSet;
-
 	@Mock
 	private static TransactionType transactionType;
-
 	@Mock
 	private static TransactionType transactionTypeSet;
-	
+
 	MathContext mc = new MathContext(3);
 
 	@BeforeEach
@@ -93,7 +86,6 @@ public class TransactionTest {
 		transaction.setRecipientAccountId(2);
 		transaction.setTransactionType(transactionTypeSet);
 		transaction.setTransactionCurrencyId(currencyIdSet);
-		
 
 		assertThat(transaction.getId()).isEqualTo(2);
 		assertThat(transaction.getAccount()).isEqualTo(accountSet);
@@ -106,5 +98,4 @@ public class TransactionTest {
 		assertThat(transaction.getTransactionType()).isEqualTo(transactionTypeSet);
 		assertThat(transaction.getTransactionCurrencyId()).isEqualTo(currencyIdSet);
 	}
-
 }

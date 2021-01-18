@@ -15,10 +15,8 @@ import com.paymybuddy.moneytranfer.models.User;
 public class ConnectionTest {
 
 	private Connection connection;
-
 	@Mock
 	private static User user;
-
 	@Mock
 	private static User userSet;
 
@@ -43,7 +41,5 @@ public class ConnectionTest {
 		assertThat(connection.getId()).isEqualTo(2);
 		assertThat(connection.getUser()).isEqualTo(userSet);
 		assertThat(connection.getConnectedUserId()).isEqualTo(2);
-
 	}
-
 }

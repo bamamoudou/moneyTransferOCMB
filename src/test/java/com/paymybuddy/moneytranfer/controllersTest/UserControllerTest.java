@@ -1,11 +1,9 @@
 package com.paymybuddy.moneytranfer.controllersTest;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +27,6 @@ import com.paymybuddy.moneytranfer.services.ConnectionService;
 import com.paymybuddy.moneytranfer.services.UserService;
 
 @AutoConfigureMockMvc
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SpringSecurityAuthTestConfig.class)
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class UserControllerTest {
@@ -40,14 +37,19 @@ public class UserControllerTest {
 	private WebApplicationContext webContext;
 
 	@MockBean
-	private UserService userServiceMock;
+	private UserService userService;
 
 	@MockBean
-	private ConnectionService connectionServiceMock;
+	private ConnectionService connectionService;
 
 	private User user;
 	private Authentication auth;
 	private SecurityContext securityContext;
+
+	@BeforeEach
+	public void setupMockMvc() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(webContext).build();
+	}
 
 	@BeforeEach
 	public void setUp() {
@@ -56,8 +58,6 @@ public class UserControllerTest {
 		user.setPassword("test123");
 		user.setName("user");
 		user.setRole(new Role("User"));
-
-		mockMvc = MockMvcBuilders.webAppContextSetup(webContext).build();
 
 		auth = mock(Authentication.class);
 		securityContext = mock(SecurityContext.class);
@@ -69,43 +69,25 @@ public class UserControllerTest {
 		mockMvc.perform(get("/register").queryParam("email", user.getEmail())).andExpect(status().is2xxSuccessful());
 	}
 
-	//@Test
-	public void registerNewUserIfValidUserInputAndStatusIsSuccessful() throws Exception {
-		when(userServiceMock.findUserByEmail(user.getEmail())).thenReturn(null);
-		mockMvc.perform(post("/register")).andExpect(status().is2xxSuccessful()).andReturn();
-		
+	@Test
+	public void registerNewUserIfValidUserInputAndStatusIsBadRequest() throws Exception {
+		when(userService.findUserByEmail(user.getEmail())).thenReturn(null);
+		mockMvc.perform(post("/register")).andExpect(status().isBadRequest());
 	}
 
-   @Test
+	@Test
 	public void registerNewUserIfUserAlreadyExistsAndDisplaysErrorMessage() throws Exception {
-		when(userServiceMock.findUserByEmail(user.getEmail())).thenReturn(user);
+		when(userService.findUserByEmail(user.getEmail())).thenReturn(user);
 
-		mockMvc.perform(post("/register"))
-				.andExpect(status().isBadRequest());
-	}
-
-	//@Test
-	public void registerNewUserIfInvalidUserInputaAndDisplaysErrorMessage() throws Exception {
-		User user = new User();
-		user.setEmail("test");
-		user.setPassword("");
-		user.setName("invalid_test_user");
-		user.setRole(new Role("User"));
-
-		when(userServiceMock.findUserByEmail(user.getEmail())).thenReturn(null);
-
-		mockMvc.perform(post("/register"))
-				.andExpect(status().isBadRequest())
-		.andExpect(content().string(containsString("Email must be in a valid format.")))
-      .andExpect(content().string(containsString("Passwords need to be between 5-60 characters.")));
+		mockMvc.perform(post("/register")).andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void getAddConnectionIfUserIsLoggedInAndStatusIsSuccessful() throws Exception {
 		when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(auth);
-		when(userServiceMock.getUserFromAuth(auth)).thenReturn(user);
+		when(userService.getUserFromAuth(auth)).thenReturn(user);
 
-		mockMvc.perform(get("/user/addConnection").requestAttr("user", user)).andExpect(status().is2xxSuccessful());
+		mockMvc.perform(get("/user/connections").requestAttr("user", user)).andExpect(status().is2xxSuccessful());
 	}
 
 	@Test
@@ -117,10 +99,9 @@ public class UserControllerTest {
 		user2.setRole(new Role("User"));
 
 		when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(auth);
-		when(userServiceMock.getUserFromAuth(auth)).thenReturn(user);
-		when(userServiceMock.findUserByEmail(user2.getEmail())).thenReturn(user2);
+		when(userService.getUserFromAuth(auth)).thenReturn(user);
+		when(userService.findUserByEmail(user2.getEmail())).thenReturn(user2);
 
 		mockMvc.perform(post("/user/addConnection").queryParam("email", user2.getEmail())).andExpect(status().isOk());
 	}
-
 }

@@ -78,7 +78,6 @@ public class TransactionServiceImpl implements TransactionService {
 			receivingAccount.setBalance(receivingAccountBalanceBefore.add(transactionAmount));
 			accountService.updateAccount(receivingAccount);
 		}
-
 	}
 
 	@Override
@@ -102,7 +101,6 @@ public class TransactionServiceImpl implements TransactionService {
 				accountService.updateAccount(sendingAccount);
 			}
 		}
-
 	}
 
 	@Override
@@ -126,7 +124,6 @@ public class TransactionServiceImpl implements TransactionService {
 				accountService.updateAccount(sendingAccount);
 			}
 		}
-
 	}
 
 	@Override
@@ -162,5 +159,4 @@ public class TransactionServiceImpl implements TransactionService {
 		BigDecimal feeFactor = (new BigDecimal("1").add(transactionFee));
 		return transactionAmount.multiply(feeFactor).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
-
 }

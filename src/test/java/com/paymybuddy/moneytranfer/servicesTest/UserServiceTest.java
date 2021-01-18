@@ -11,19 +11,15 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.paymybuddy.moneytranfer.controllersTest.SpringSecurityAuthTestConfig;
 import com.paymybuddy.moneytranfer.models.Role;
 import com.paymybuddy.moneytranfer.models.User;
 import com.paymybuddy.moneytranfer.models.UserProfilDetails;
@@ -33,7 +29,6 @@ import com.paymybuddy.moneytranfer.services.CurrencyService;
 import com.paymybuddy.moneytranfer.services.RoleService;
 import com.paymybuddy.moneytranfer.servicesImpl.UserServiceImpl;
 
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SpringSecurityAuthTestConfig.class)
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
@@ -68,7 +63,6 @@ public class UserServiceTest {
 
 		// assert
 		assertThat(result).isEqualTo(user);
-
 	}
 
 	@Test
@@ -104,7 +98,6 @@ public class UserServiceTest {
 
 		// assert
 		assertThat(result).isNotNull();
-
 	}
 
 	@Test
@@ -164,5 +157,4 @@ public class UserServiceTest {
 		assertThat(result.getEmail()).isEqualTo(user.getEmail());
 		verify(userRepository, times(1)).save(any(User.class));
 	}
-
 }

@@ -39,7 +39,6 @@ import com.paymybuddy.moneytranfer.services.UserService;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SpringSecurityAuthTestConfig.class)
 @RunWith(SpringRunner.class)
 public class TransactionControllerTest {
 	@Autowired
@@ -235,5 +234,4 @@ public class TransactionControllerTest {
 
 		mockMvc.perform(post("/user/transferToBankAccount")).andExpect(status().is2xxSuccessful());
 	}
-
 }

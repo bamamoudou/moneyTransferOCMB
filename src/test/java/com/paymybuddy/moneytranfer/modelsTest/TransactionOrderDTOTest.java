@@ -51,5 +51,4 @@ public class TransactionOrderDTOTest {
 		assertThat(transaction.getFromUserEmail()).isEqualTo("from@user.com");
 		assertThat(transaction.getToUserEmail()).isEqualTo("to@user.com");
 	}
-
 }

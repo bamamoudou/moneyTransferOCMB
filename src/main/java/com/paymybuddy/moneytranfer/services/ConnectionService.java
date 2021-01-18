@@ -12,5 +12,4 @@ public interface ConnectionService {
 	public List<User> findConnectedUsersByUser(User buddy);
 
 	public void createConnection(User buddy, String connectedUserEmail);
-
 }

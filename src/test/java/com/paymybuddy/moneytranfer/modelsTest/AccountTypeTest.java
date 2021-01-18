@@ -13,19 +13,15 @@ import com.paymybuddy.moneytranfer.models.AccountType;
 public class AccountTypeTest {
 
 	private AccountType accountType;
-
 	@BeforeEach
 	public void initTest() {
 		accountType = new AccountType(1, "regular");
-
 	}
-
 	@Test
 	public void gettersTest() {
 		assertThat(accountType.getId()).isEqualTo(1);
 		assertThat(accountType.getAccountType()).isEqualTo("regular");
 	}
-
 	@Test
 	public void settersTest() {
 		accountType.setId(2);
@@ -34,5 +30,4 @@ public class AccountTypeTest {
 		assertThat(accountType.getId()).isEqualTo(2);
 		assertThat(accountType.getAccountType()).isEqualTo("bank");
 	}
-
 }

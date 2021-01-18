@@ -14,5 +14,4 @@ public interface AccountService {
 	public void updateAccount(Account account);
 
 	public AccountType findAccountTypeByAccountType(String accountType);
-
 }

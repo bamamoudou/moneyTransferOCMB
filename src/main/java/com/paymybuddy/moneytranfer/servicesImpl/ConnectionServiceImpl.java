@@ -55,7 +55,5 @@ public class ConnectionServiceImpl implements ConnectionService {
 				connectionRepository.save(newConnection);
 			}
 		}
-
 	}
-
 }

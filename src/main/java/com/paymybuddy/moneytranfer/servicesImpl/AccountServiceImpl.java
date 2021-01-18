@@ -32,7 +32,6 @@ public class AccountServiceImpl implements AccountService {
 			return account;
 		}
 		return null;
-
 	}
 
 	@Override
@@ -64,5 +63,4 @@ public class AccountServiceImpl implements AccountService {
 
 		return accountTypeRepository.findAccountTypeByAccountType(accountType);
 	}
-
 }

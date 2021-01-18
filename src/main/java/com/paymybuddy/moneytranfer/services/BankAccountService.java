@@ -9,6 +9,4 @@ public interface BankAccountService {
 	public BankAccount findBankAccountByAccount(Account account);
 
 	public BankAccount createBankAccount(User user, String bankAccountNumber);
-
-
 }

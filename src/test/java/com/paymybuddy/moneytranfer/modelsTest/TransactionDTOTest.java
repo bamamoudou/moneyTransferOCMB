@@ -39,5 +39,4 @@ public class TransactionDTOTest {
 		assertThat(transaction.getDescription()).isEqualTo("test description");
 		assertThat(transaction.getToUserEmail()).isEqualTo("to@user.com");
 	}
-
 }

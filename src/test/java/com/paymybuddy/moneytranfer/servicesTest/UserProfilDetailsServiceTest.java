@@ -55,5 +55,4 @@ public class UserProfilDetailsServiceTest {
 		// assert
 		assertThrows(UsernameNotFoundException.class, () -> userProfilDetailsServiceImpl.loadUserByUsername(email));
 	}
-
 }

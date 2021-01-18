@@ -42,7 +42,6 @@ public class BankAccountServiceTest {
 
 		// assert
 		assertThat(result.getBankAccountNumber()).isEqualTo(bankAccount.getBankAccountNumber());
-
 	}
 
 	@Test
@@ -57,7 +56,6 @@ public class BankAccountServiceTest {
 
 		// assert
 		assertThat(result).isNull();
-
 	}
 
 	@Test
@@ -77,7 +75,6 @@ public class BankAccountServiceTest {
 		// assert
 		assertThat(result.getBankAccountNumber()).isEqualTo("bankaccountnumber");
 		verify(bankAccountRepository, times(1)).save(any(BankAccount.class));
-
 	}
 
 	@Test
@@ -97,5 +94,4 @@ public class BankAccountServiceTest {
 		assertThat(result).isNull();
 		verify(bankAccountRepository, times(0)).save(any(BankAccount.class));
 	}
-
 }

@@ -74,7 +74,7 @@ public class TransactionController {
 
 		}
 
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/user/transfer")
@@ -88,7 +88,7 @@ public class TransactionController {
 			transactionService.createTransactionByPayMyBuddy(userFromAuth, email, description, amount);
 			LOGGER.info("HTTP POST request received for postTransfer, SUCCESS");
 		} else {
-			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+			return new ResponseEntity<>("Adding new transfer request rejected.", HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>("New transfer carry out", HttpStatus.OK);
 	}
@@ -112,9 +112,9 @@ public class TransactionController {
 				transactionOrderDTOList.add(transactionOrderDTO);
 			}
 		} else {
-			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+			return new ResponseEntity<>("Fail to get transactions", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<>("List of transactions",HttpStatus.OK);
 	}
 
 	@GetMapping("/user/profile")
@@ -122,14 +122,11 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.getUserFromAuth(auth);
 		if (user != null) {
-			// modelAndView.setViewName("profile");
-			// modelAndView.addObject("user", user);
-			// modelAndView.addObject("bankAccount", user.getAccount().getBankAccount());;
 			user.getAccount().getBankAccount();
 		} else {
-			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+			return new ResponseEntity<>("Fail to get you profile", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/user/addBankAccount")
@@ -139,9 +136,9 @@ public class TransactionController {
 		if (userFromAuth != null) {
 			bankAccountService.createBankAccount(userFromAuth, bankAccountNumber);
 		} else {
-			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+			return new ResponseEntity<>("Adding bank account failling", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<>("New bank account added", HttpStatus.OK);
 	}
 
 	@PostMapping("/user/creditAccount")
@@ -151,9 +148,9 @@ public class TransactionController {
 		if (userFromAuth != null) {
 			transactionService.createTransactionByCreditMyAccount(userFromAuth, amount);
 		} else {
-			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
+			return new ResponseEntity<>("Fail to credit your account", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<>("Your account is credited", HttpStatus.OK);
 	}
 
 	@PostMapping("/user/transferToBankAccount")
@@ -165,7 +162,7 @@ public class TransactionController {
 		} else {
 			LOGGER.error("HTTP Post request rejected for postTransfer, ERROR");
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	private void createTransactionDTOBank(List<TransactionDTO> transactionDTOList, Transaction transaction) {

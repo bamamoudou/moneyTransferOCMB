@@ -23,37 +23,27 @@ import com.paymybuddy.moneytranfer.models.User;
 public class AccountTest {
 
 	private Account account;
-
 	@Mock
 	private static Currency currency;
-
 	@Mock
 	private static Currency currencySet;
-
 	@Mock
 	private static User user;
-
 	@Mock
 	private static User userSet;
-
 	@Mock
 	private static AccountType accountType;
-
 	@Mock
 	private static AccountType accountTypeSet;
-
 	@Mock
 	private static BankAccount bankAccount;
-
 	@Mock
 	private static BankAccount bankAccountSet;
-
 	@Mock
 	private static List<Transaction> transactions;
-
 	@Mock
 	private static List<Transaction> transactionsSet;
-	
+
 	MathContext mc = new MathContext(3);
 
 	@BeforeEach
@@ -70,7 +60,7 @@ public class AccountTest {
 		account.setUser(user);
 		account.setCurrency(currency);
 		account.setTransactions(transactions);
-		
+
 		assertThat(account.getId()).isEqualTo(1);
 		assertThat(account.getAccountType()).isEqualTo(accountType);
 		assertThat(account.getBalance()).isEqualTo(new BigDecimal(10.5).round(mc));
@@ -78,7 +68,6 @@ public class AccountTest {
 		assertThat(account.getUser()).isEqualTo(user);
 		assertThat(account.getCurrency()).isEqualTo(currency);
 		assertThat(account.getTransactions()).isEqualTo(transactions);
-
 	}
 
 	@Test
@@ -99,5 +88,4 @@ public class AccountTest {
 		assertThat(account.getCurrency()).isEqualTo(currencySet);
 		assertThat(account.getTransactions()).isEqualTo(transactionsSet);
 	}
-
 }

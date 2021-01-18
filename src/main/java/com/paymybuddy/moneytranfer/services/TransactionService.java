@@ -20,5 +20,4 @@ public interface TransactionService {
 	public void createTransactionByCreditMyAccount(User sendingUser, String amount);
 
 	public boolean isInCurrencyFormat(String amount);
-
 }
