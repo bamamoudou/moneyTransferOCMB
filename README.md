@@ -2,7 +2,7 @@
 
 Pay My Buddy is a three-tier app that allows friends to easily transfer money between one another.
 Classe Diagram
-![diagrams](https://github.com/bamamoudou/moneyTransferOCMB/blob/master/diagrams/classDiagram.png)
+![diagrams](https://github.com/bamamoudou/moneyTransferOCMB/tree/master/diagrams/classDiagram.PNG)
 
 Conceptual data model
 ![diagrams](https://github.com/bamamoudou/moneyTransferOCMB/tree/master/diagrams/CMD.mwb)
