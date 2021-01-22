@@ -177,5 +177,4 @@ public class Transaction {
 	public void setFee(BigDecimal fee) {
 		this.fee = fee;
 	}
-
 }

@@ -61,5 +61,4 @@ public class Currency {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 }

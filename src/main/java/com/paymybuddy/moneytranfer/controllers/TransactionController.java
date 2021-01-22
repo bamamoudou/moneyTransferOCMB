@@ -114,7 +114,7 @@ public class TransactionController {
 		} else {
 			return new ResponseEntity<>("Fail to get transactions", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>("List of transactions",HttpStatus.OK);
+		return new ResponseEntity<>("List of transactions", HttpStatus.OK);
 	}
 
 	@GetMapping("/user/profile")
@@ -178,5 +178,4 @@ public class TransactionController {
 		User user = userService.getUserFromAuth(auth);
 		return (user.getAccount().getBankAccount() != null);
 	}
-
 }

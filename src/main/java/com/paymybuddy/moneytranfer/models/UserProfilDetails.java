@@ -73,5 +73,4 @@ public class UserProfilDetails implements UserDetails {
 	public String getAccountBalance() {
 		return user.getAccount().getBalance().toString();
 	}
-
 }

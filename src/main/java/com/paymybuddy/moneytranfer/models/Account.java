@@ -114,5 +114,4 @@ public class Account {
 	public void setBankAccount(BankAccount bankAccount) {
 		this.bankAccount = bankAccount;
 	}
-
 }

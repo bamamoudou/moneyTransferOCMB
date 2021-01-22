@@ -70,5 +70,4 @@ public class Connection {
 	public void setConnectedUserId(int connectedUserId) {
 		this.connectedUserId = connectedUserId;
 	}
-
 }

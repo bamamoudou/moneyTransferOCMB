@@ -50,5 +50,4 @@ public class Role {
 	public void setName(String roleType) {
 		this.roleType = roleType;
 	}
-
 }

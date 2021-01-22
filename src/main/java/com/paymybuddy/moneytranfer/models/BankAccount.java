@@ -86,5 +86,4 @@ public class BankAccount {
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 	}
-
 }

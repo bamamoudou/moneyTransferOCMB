@@ -51,5 +51,4 @@ public class TransactionType {
 	public void setType(String transactionType) {
 		this.transactionType = transactionType;
 	}
-
 }
