@@ -18,6 +18,10 @@ import com.paymybuddy.moneytranfer.models.User;
 import com.paymybuddy.moneytranfer.services.ConnectionService;
 import com.paymybuddy.moneytranfer.services.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(description = "Class used to manage users")
 @RestController
 public class UserController {
 	private UserService userService;
@@ -29,11 +33,13 @@ public class UserController {
 		this.connectionService = connectionService;
 	}
 
+	@ApiOperation(value = "Retrieves a user using its email provided that it exists")
 	@GetMapping("/register")
 	public User register(@RequestParam String email) {
 		return userService.findUserByEmail(email);
 	}
 
+	@ApiOperation(value = "Add a new user by registration")
 	@PostMapping("/register")
 	public ResponseEntity<String> registerNewUser(@RequestBody User user) {
 		User userExists = userService.findUserByEmail(user.getEmail());
@@ -47,6 +53,7 @@ public class UserController {
 		return new ResponseEntity<String>("Registration Ok", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Add a new buddy if it exists in database")
 	@PostMapping("/user/addConnection")
 	public ResponseEntity<String> addNewConnection(@ModelAttribute User user) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -63,6 +70,7 @@ public class UserController {
 		return new ResponseEntity<String>("New connection added", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Get all my buddies if they exist in database")
 	@GetMapping("/user/connections")
 	public ResponseEntity<?> getMyConnection(User user) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

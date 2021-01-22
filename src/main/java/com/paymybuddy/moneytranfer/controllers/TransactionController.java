@@ -24,7 +24,12 @@ import com.paymybuddy.moneytranfer.services.BankAccountService;
 import com.paymybuddy.moneytranfer.services.ConnectionService;
 import com.paymybuddy.moneytranfer.services.TransactionService;
 import com.paymybuddy.moneytranfer.services.UserService;
+import com.thoughtworks.qdox.model.expression.Add;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(description = "Class used to manage transactions")
 @RestController
 public class TransactionController {
 	private UserService userService;
@@ -45,6 +50,7 @@ public class TransactionController {
 		this.bankAccountService = bankAccountService;
 	}
 
+	@ApiOperation(value = "Get all transactions if they exist in database")
 	@GetMapping("/user/transfer")
 	public ResponseEntity<String> getTransfer() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -77,6 +83,7 @@ public class TransactionController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Make a new transfer after being authenticated")
 	@PostMapping("/user/transfer")
 	public ResponseEntity<String> postNewTransfer(@RequestParam String email, @RequestParam String description,
 			@RequestParam String amount) {
@@ -93,6 +100,7 @@ public class TransactionController {
 		return new ResponseEntity<>("New transfer carry out", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Get all transactions after being authenticated as admin")
 	@GetMapping("/admin/transactions")
 	public ResponseEntity<String> getTransactionsLogIfAdminLogginded() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -117,6 +125,7 @@ public class TransactionController {
 		return new ResponseEntity<>("List of transactions", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Access my profil after being authenticated")
 	@GetMapping("/user/profile")
 	public ResponseEntity<String> profile() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -129,6 +138,7 @@ public class TransactionController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Link a bank account with my user account")
 	@PostMapping("/user/addBankAccount")
 	public ResponseEntity<String> postAddBankAccount(@RequestParam String bankAccountNumber) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -141,6 +151,7 @@ public class TransactionController {
 		return new ResponseEntity<>("New bank account added", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Add money in my account from my bank account")
 	@PostMapping("/user/creditAccount")
 	public ResponseEntity<String> postCreditAccount(@RequestParam String amount) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -153,6 +164,7 @@ public class TransactionController {
 		return new ResponseEntity<>("Your account is credited", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Make transfer to my bank account from my user account")
 	@PostMapping("/user/transferToBankAccount")
 	public ResponseEntity<String> postTransferToBankAccount() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
